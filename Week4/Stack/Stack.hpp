@@ -1,60 +1,81 @@
 #ifndef STACK_HPP
 #define STACK_HPP
-#include "Node.hpp"
+
+#include<iostream>
+using namespace std;
 template <typename T>
-class Linkedlist_stack{
-private:
-    Node* head;
-    Node* cur;
-    int size;
-public:
-    Linkedlist_stack(): head(nullptr), cur(nullptr), size(0){};
-
-    int getSize()
-    {
-        return size;
-    }
-
-    bool isEmpty()
-    {
-        return size == 0 ? true : false;
-    }
-
-    void push(int data)
-    {
-        Node* newNode = new Node(data);
-        if ( size == 0 )
-        {
-            head = newNode;
-            size++;
-            return;
+class ArrayStack{
+    private:
+        T stack[50];
+        int top;
+    public:
+        ArrayStack(){
+            top = -1;
         }
-        newNode->next = head;
-        head = newNode;
-        size++;
-    }
-
-    Node* pop(){
-        if( isEmpty() )
-        {
-            return nullptr;
+        void push(T value){
+            if(top == 49){
+                cout<<"Stack is Full"<<endl;
+                return;
+            }
+            stack[++top] = value;
         }
-        if( size == 1 )
-        {
-            head = nullptr;
-            size--;
-            return nullptr;
+        void pop(){
+            if (isEmpty()) {
+                cout << "Stack is empty!" << endl;
+                return;
+            } 
+            top--;
         }
-        cur = head;
-        head = head->next;
-        return cur;
-    }
-
-    void peek(){
-        std::cout << head->data ;
-        return;
-    }
-
+        T peek(){
+            return stack[top];   
+        }
+        bool isEmpty(){
+            return top == -1;
+        }
+        
 };
+bool checkMatching(char open, char close){
+    return (open == '(' && close == ')') ||
+           (open == '[' && close == ']') ||
+           (open == '{' && close == '}');
+}
+bool isOpen(char temp){
+    return temp == '(' || temp == '[' || temp == '{';
+}
+bool isClose(char temp){
+    return temp == '}' || temp == ']' || temp == ')';
+}
+void checkBrackets(string text){
+    ArrayStack<char>array;
+    bool insideSingleQuote = false;
+    for(int i = 0; i < text.length(); i++){
+        char temp = text[i];
+        if (temp == '\'') {
+            insideSingleQuote = !insideSingleQuote;
+            continue;
+        }
+        if (insideSingleQuote) continue;
+        if(isOpen(temp)){
+            array.push(temp);
+        } else if(isClose(temp)){
+            if(array.isEmpty()){
+                cout<<"ERROR pos="<<i+1<<" reason=extra-closing"<<endl;
+                return;
+            }
+            char forCheck = array.peek();
+            if(!checkMatching(forCheck,temp)){
+                cout<<"ERROR pos="<<i+1<<" reason=mismatch"<<endl;
+                return;
+            }
+            array.pop();
+        }
+    }
+
+    if (!array.isEmpty()) {
+        cout << "ERROR pos=3 reason=unclosed\n";
+    } else {
+        cout << "OK\n";
+    }
+}
 
 #endif
