@@ -1,64 +1,84 @@
-template <typename T>
-class Node {
+class Order {
 public:
-    T data;
-    Node* next;
+    int data;
+    Order* next;
 
-    Node(const int value) : data(value), next(nullptr){}
+    Order( const int Orderdata ) : data(Orderdata), next(nullptr){}
 };
-template <typename T>
-class Linkedlist_queue {
+
+class Linkedlist_OrderQueue {
     private: 
-    Node* front;
-    Node* rear;
-    int size;
+    Order* front;
+    Order* rear;
+    int length;
 
     public: 
-    Linkedlist_queue(): front(nullptr), rear(nullptr), size(0){};
+    Linkedlist_OrderQueue(): front(nullptr), rear(nullptr), length(0){};
 
-    int getSize()
+    ~Linkedlist_OrderQueue() {
+        while( !isEmpty() )
+        {
+            dequeue();
+        }
+    }
+
+    int getlength()
     {
-        return size;
+        return length;
     }
     
     bool isEmpty()
     {
-        return size == 0 ? true:false;
+        return length == 0;
     }
 
-    void push(int value)
+    void traversal()
     {
-        Node* newNode = new Node(value);
-        if( size == 0 )
+        Order* cur = front;
+        while ( cur )
         {
-            front = rear = newNode;
-            size++;
+            std::cout << cur->data << "->"; 
+            cur = cur->next;
+        }
+        std::cout << "NULL" << std::endl;
+    }
+
+    void enqueue( int Orderdata )
+    {
+        Order* newOrder = new Order(Orderdata);
+        if( length == 0 )
+        {
+            front = rear = newOrder;
+            length++;
             return;
         }
-        rear->next = newNode;
-        rear = newNode;
-        size++;
+        rear->next = newOrder;
+        rear = newOrder;
+        length++;
     }
 
-    Node* pop()
+    int dequeue()
     {
-        if(isEmpty())
+        if( isEmpty() )
         {
-            return nullptr;
+            return 0;
         }
-
-        if(size==1)
+        if( length == 1 )
         {
-            Node* tmp = front;
+            Order* tmp = front;
+            int ID = tmp->data;
             front = rear = nullptr;
-            size--;
-            return tmp;
+            length--;
+            delete tmp;
+            return ID;
         }
 
-        Node* tmp = front;
+        Order* tmp = front;
+        int ID = tmp->data;
         front = front->next;
-        size--;
-        return tmp;
+        length--;
+        delete tmp;
+        return ID;
     }
 
     void peekfront(){
