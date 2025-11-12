@@ -9,10 +9,10 @@ int main()
     {
         Listed.enqueue(i);
     }
-    Listed.traversal();
+    Listed.print();
     cout << "Length: "<< Listed.getlength() << endl;
     Listed.dequeue();
-    Listed.traversal();
+    Listed.print();
     cout << "Length: "<< Listed.getlength() << endl;
     return 0;
 }

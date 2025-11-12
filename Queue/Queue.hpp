@@ -32,7 +32,7 @@ class Linkedlist_OrderQueue {
         return length == 0;
     }
 
-    void traversal()
+    void print()
     {
         Order* cur = front;
         while ( cur )
