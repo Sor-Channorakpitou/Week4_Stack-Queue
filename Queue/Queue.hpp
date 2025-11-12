@@ -34,6 +34,11 @@ class Linkedlist_OrderQueue {
 
     void print()
     {
+        if( isEmpty() )
+        {
+            std::cout << "Empty!" << std::endl;
+            return;
+        }
         Order* cur = front;
         while ( cur )
         {
@@ -61,6 +66,7 @@ class Linkedlist_OrderQueue {
     {
         if( isEmpty() )
         {
+            std::cout << "Empty!" << std::endl;
             return 0;
         }
         if( length == 1 )
@@ -72,7 +78,6 @@ class Linkedlist_OrderQueue {
             delete tmp;
             return ID;
         }
-
         Order* tmp = front;
         int ID = tmp->data;
         front = front->next;
@@ -82,10 +87,20 @@ class Linkedlist_OrderQueue {
     }
 
     void peekfront(){
+        if( isEmpty() )
+        {
+            std::cout << "Empty!" << std::endl;
+            return;
+        }
         std::cout << "front: "<< front->data << std::endl;
     }
 
     void peekrear(){
+        if( isEmpty() )
+        {
+            std::cout << "Empty!" << std::endl;
+            return;
+        }
         std::cout << "rear: "<< rear->data << std::endl;
     }
 
